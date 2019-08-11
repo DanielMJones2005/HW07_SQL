@@ -1,1 +1,1 @@
-pgpass = "test"
+pgpass = "test2"
