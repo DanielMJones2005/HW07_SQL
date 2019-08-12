@@ -29,7 +29,8 @@ SELECT employees.emp_no, employees.last_name,
 	employees.first_name, employees.gender, salaries.salary
 FROM employees
 LEFT OUTER JOIN salaries
-ON employees.emp_no = salaries.emp_no;
+ON employees.emp_no = salaries.emp_no
+ORDER BY employees.emp_no ASC;
 
 SELECT COUNT(*) FROM emp_salaries
 	
@@ -44,6 +45,9 @@ FROM employees
 WHERE
 hire_date >= '1986-01-01' and 
 hire_date <= '1986-12-31'
+ORDER BY emp_no ASC;
+
+SELECT COUNT(*) FROM emp_1986
 
 SELECT *
 FROM emp_1986
@@ -56,7 +60,7 @@ CREATE VIEW manager_info AS
 SELECT dept_mgr.dpt_no, departments.dpt_name, dept_mgr.emp_no, 
 	employees.last_name, employees.first_name, employees.hire_date,
 	salaries.to_date as salary_to_date, dept_mgr.from_date as dept_mgr_from_date,
-	dept_mgr.to_date as dept_mgt_to_date
+	dept_mgr.to_date as dept_mgr_to_date
 -- also added dpt_mgr dates
 FROM dept_mgr
 LEFT OUTER JOIN departments
@@ -65,6 +69,8 @@ LEFT OUTER JOIN employees
 ON dept_mgr.emp_no = employees.emp_no
 LEFT OUTER JOIN salaries
 ON employees.emp_no = salaries.emp_no;
+
+SELECT COUNT(*) FROM manager_info
 
 SELECT *
 FROM manager_info
@@ -81,12 +87,15 @@ FROM employees
 LEFT OUTER JOIN dept_emp
 ON employees.emp_no = dept_emp.emp_no
 LEFT OUTER JOIN departments
-ON dept_emp.dpt_no = departments.dpt_no;
+ON dept_emp.dpt_no = departments.dpt_no
+ORDER BY employees.emp_no ASC;
+
+SELECT COUNT(*) FROM dpt_each_emp
 
 SELECT *
 FROM dpt_each_emp
 
-SELECT COUNT(*) FROM dpt_each_emp
+
 
 	
 -- 5. List all employees whose first name is "Hercules" and last names begin with "B."
@@ -94,6 +103,8 @@ CREATE VIEW herc_b AS
 SELECT *
 FROM employees
 WHERE first_name = 'Hercules' AND last_name LIKE 'B%'
+
+SELECT COUNT(*) FROM herc_b
 
 SELECT *
 FROM herc_b
@@ -106,12 +117,15 @@ SELECT employees.emp_no, employees.last_name, employees.first_name,
 	departments.dpt_name, dept_emp.from_date as dept_from_date, 
 	dept_emp.to_date  as dept_to_date
 -- also added from date to date
-FROM employees
-LEFT OUTER JOIN dept_emp
-ON employees.emp_no = dept_emp.emp_no
+FROM dept_emp 
+LEFT OUTER JOIN employees
+ON dept_emp.emp_no = employees.emp_no
 LEFT OUTER JOIN departments
 ON dept_emp.dpt_no = departments.dpt_no
-WHERE departments.dpt_name = 'Sales';
+WHERE departments.dpt_name = 'Sales'
+ORDER BY dept_emp.emp_no ASC;
+
+SELECT COUNT(*) FROM sales_emp
 
 SELECT *
 FROM sales_emp
@@ -124,12 +138,15 @@ SELECT employees.emp_no, employees.last_name, employees.first_name,
 	departments.dpt_name, dept_emp.from_date as dept_from_date, 
 	dept_emp.to_date  as dept_to_date
 -- also added from date to date
-FROM employees
-LEFT OUTER JOIN dept_emp
-ON employees.emp_no = dept_emp.emp_no
+FROM dept_emp
+LEFT OUTER JOIN employees 
+ON dept_emp.emp_no = employees.emp_no
 LEFT OUTER JOIN departments
 ON dept_emp.dpt_no = departments.dpt_no
-WHERE departments.dpt_name = 'Sales' OR departments.dpt_name = 'Development';
+WHERE departments.dpt_name = 'Sales' OR departments.dpt_name = 'Development'
+ORDER BY dept_emp.emp_no ASC;
+
+SELECT COUNT(*) FROM sales_dev_emp
 
 SELECT *
 FROM sales_dev_emp
@@ -143,6 +160,8 @@ COUNT(last_name) as last_name_freq
 FROM employees
 GROUP BY last_name
 ORDER BY last_name DESC;	
+
+SELECT COUNT(*) FROM last_name_freq
 	
 SELECT *
 FROM last_name_freq
